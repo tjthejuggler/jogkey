@@ -31,6 +31,8 @@ class MusicPlayer( tk.Frame ):
         self.load_AudioFile()
         self.create_Widgets()
 
+    def test_print(self):
+        print("crazy test")
 
     def get_AudioFile_MetaData( self, tracktype ):
         '''Get audio file and it's meta data (e.g. tracklength).'''
@@ -69,16 +71,17 @@ class MusicPlayer( tk.Frame ):
         '''Create Buttons (e.g. Start & Stop ) and Progress Bar.''' 
         print( '\ndef create_Widgets ( self ):' )
         self.playBut = tk.Button( self, text='Play', command=self.Play )
-        self.playBut.pack()
+        self.playBut.pack(side=tk.LEFT)
+        #key_button_frame.pack(side=tkinter.BOTTOM)
 
         self.stopBut = tk.Button( self, text='Stop', command=self.Stop )
-        self.stopBut.pack()
+        self.stopBut.pack(side=tk.LEFT,padx=10)
 
         self.slider_value = tk.DoubleVar()
         self.slider = tk.Scale( self, to=self.trackLength, orient=tk.HORIZONTAL, length=1700,
                                 resolution=0.01, showvalue=True, tickinterval=5, digit=5,
                                 variable=self.slider_value, command=self.UpdateSlider )
-        self.slider.pack()
+        self.slider.pack(side=tk.LEFT)
 
 
     def Play( self ):
