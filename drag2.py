@@ -13,6 +13,29 @@ def main():
     #quit_button = tkinter.Button(root, command=root.quit, text="Quit").pack()
     #track_length = info.length()
 
+    import numpy as np
+    key_labels = [['1','2','3','4','5','6','7','8','9','0'],
+                  ['Q','W','E','R','T','Y','U','I','O','P'],
+                  ['A','S','D','F','G','H','J','K','L',';'],
+                  ['Z','X','C','V','B','N','M',',','.','/']]
+
+    def event_handle(event):
+        # Replace the window's title with event.type: input key
+        print(event.char)
+
+        array = np.array(key_labels)
+        solutions = np.argwhere(array == event.char.upper())
+        print(solutions)
+        music.test_print()
+        print('sol00',solutions[0][0])
+        timelines[solutions[0][0]].set_marker(solutions[0][0], solutions[0][1], music.slider.get(), music.slider_width)
+        #print()
+
+    event_sequence = '<KeyPress>'
+    root.bind(event_sequence, event_handle)
+    root.bind('<KeyRelease>', event_handle)
+
+
     track_length = OggVorbis('output.ogg').info.length
     timelines = [None]*4
     for i in range(4):        
@@ -20,16 +43,12 @@ def main():
         timelines[i].pack(anchor='w')
     music = MusicPlayer( root, tracktype='ogg' )
     keys = [[None]*10]*4
-    key_labels = [['1','2','3','4','5','6','7','8','9','0'],
-                  ['Q','W','E','R','T','Y','U','I','O','P'],
-                  ['A','S','D','F','G','H','J','K','L',';'],
-                  ['Z','X','C','V','B','N','M',',','.','/']]
+
 
     def choose_color(i, j):
         color_code = tkinter.colorchooser.askcolor()
         #print(i, j, color_code, music.slider_value.get())
-        music.test_print()
-        timelines[i].set_marker(i, j, music.slider.get(), music.slider_width)
+
 
     key_button_frame = tkinter.Frame(root, 
                width=canvas_width, 
