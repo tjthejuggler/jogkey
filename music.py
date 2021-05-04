@@ -25,6 +25,7 @@ class MusicPlayer( tk.Frame ):
         self.stopBut = None      # Stop Button
         self.slider = None       # Progress Bar
         self.slider_value = None # Progress Bar value
+        self.slider_width = None
 
         # Call these methods
         self.get_AudioFile_MetaData( tracktype )
@@ -36,7 +37,7 @@ class MusicPlayer( tk.Frame ):
 
     def get_AudioFile_MetaData( self, tracktype ):
         '''Get audio file and it's meta data (e.g. tracklength).'''
-        print( '\ndef get_AudioFileMetaData( self, audiofile ):' )
+        #print( '\ndef get_AudioFileMetaData( self, audiofile ):' )
 
         try:
             if tracktype == 'mp3':
@@ -70,18 +71,30 @@ class MusicPlayer( tk.Frame ):
     def create_Widgets ( self ):
         '''Create Buttons (e.g. Start & Stop ) and Progress Bar.''' 
         print( '\ndef create_Widgets ( self ):' )
-        self.playBut = tk.Button( self, text='Play', command=self.Play )
+
+
+        pixel = tk.PhotoImage(width=1, height=1)
+            #button = tk.Button(root, text="", image=pixel, width=100, height=100, compound="c")
+        #self.markers[len(self.markers)-1] = tk.Button( self, text='sm', image=pixel, width=new_width, height=20, compound="c")
+            
+
+        self.playBut = tk.Button( self, image=pixel, text='Play', command=self.Play, width = 50, height = 20, compound="c" )
         self.playBut.pack(side=tk.LEFT)
         #key_button_frame.pack(side=tkinter.BOTTOM)
 
-        self.stopBut = tk.Button( self, text='Stop', command=self.Stop )
+        self.stopBut = tk.Button( self, image=pixel, text='Stop', command=self.Stop, width = 50, height = 20, compound="c" )
         self.stopBut.pack(side=tk.LEFT,padx=10)
 
+        button_widths = self.playBut.winfo_width() + self.stopBut.winfo_width() + 10
+        #print('self.butFrame.winfo_width()', self.butFrame.winfo_width())
+
         self.slider_value = tk.DoubleVar()
-        self.slider = tk.Scale( self, to=self.trackLength, orient=tk.HORIZONTAL, length=1700,
+        self.slider = tk.Scale( self, to=self.trackLength, orient=tk.HORIZONTAL, length=self.winfo_screenwidth()-160,
                                 resolution=0.01, showvalue=True, tickinterval=5, digit=5,
                                 variable=self.slider_value, command=self.UpdateSlider )
         self.slider.pack(side=tk.LEFT)
+
+        self.slider_width = self.slider.winfo_screenwidth()
 
 
     def Play( self ):
@@ -117,14 +130,14 @@ class MusicPlayer( tk.Frame ):
 
     def UpdateSlider( self, value ):
         '''Move slider position when tk.Scale's trough is clicked or when slider is clicked.'''
-        print( '\ndef UpdateSlider():' );       print(type(value),'value = ',value,' sec')
+        #print( '\ndef UpdateSlider():' );       print(type(value),'value = ',value,' sec')
         if self.player.music.get_busy():
-            print("Track Playing")
+            #print("Track Playing")
             self.after_cancel( self.loopID ) #Cancel PlayTrack loop    
             self.slider_value.set( value )   #Move slider to new position
             self.Play( )                     #Play track from new postion
         else:
-            print("Track Not Playing")
+            #print("Track Not Playing")
             self.slider_value.set( value )   #Move slider to new position
 
 

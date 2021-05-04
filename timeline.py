@@ -11,7 +11,7 @@ import tkinter.messagebox as tkMessageBox
 
 class TimeLine( tk.Frame ):
 
-    def __init__(self, master, index, *args, **kwargs):
+    def __init__(self, master, index, track_length, *args, **kwargs):
 
         super().__init__(master) #initilizes self, which is a tk.Frame
         self.pack()
@@ -20,45 +20,71 @@ class TimeLine( tk.Frame ):
         self.master = master     # Tk window
         self.index = index
         self.markers = []
+        self.track_length = track_length
+        self.music_slider_width = None
+        self.label_pixel_width = None
+
+
+        # x                cur_num
+        # slider_width     track_len
+
 
 
         # Call these methods
 
         self.create_Widgets()
 
-    def set_marker(self, i, j, slider_value):
-        print("xxx", i, j, slider_value)
-        this_markers_index = len(self.markers)
+    def get_total_marker_width(self):
         total_marker_width = 0
-
-        if this_markers_index > 0:
-            total_marker_width = 0
+        if len(self.markers) > 0:
             for o in self.markers :
                 total_marker_width += o['width']
+        return total_marker_width
 
-            print('total_marker_width', total_marker_width)
+    def set_marker(self, i, j, slider_value, music_slider_width):
+        print("xxx", i, j, slider_value)
+        self.music_slider_width = music_slider_width
+        total_marker_width = self.get_total_marker_width()
 
-
-        self.markers.append(None)
-        new_width = int(slider_value+slider_value*.2) - int(total_marker_width*1.2)
-        if newwidth is negative then we need to remove the previous marker and make a new shorter one
-        make the clors and hook up to keyboard
+        print('total_marker_width', total_marker_width)
+        print('track_length', self.track_length)
+        print('music_slider_width', self.music_slider_width)
+        print('guess', int(self.music_slider_width*slider_value/self.track_length))
+        print('self.label_pixel_width', self.label_pixel_width)
+        
+        new_width = int((((self.music_slider_width*slider_value)/self.track_length)-100) - total_marker_width)
+        print('new_width', new_width)
+        while new_width < 0:           
+            print('forget')
+            self.markers[len(self.markers)-1].pack_forget()
+            self.markers.pop()
+            total_marker_width = self.get_total_marker_width()
+            new_width = int((((self.music_slider_width*slider_value)/self.track_length)-100) - total_marker_width)
         if new_width > 0:
-            print(int(slider_value+slider_value*.2) - total_marker_width)
-            print(slider_value)
+            self.markers.append(None)
+            print('slider_value',slider_value)
             #print(previous_marker_width)
             print('---')
-            self.markers[this_markers_index] = tk.Button( self, text='sm' )
-            self.markers[this_markers_index].config(text = slider_value, width = new_width, height = 3)
-            self.markers[this_markers_index].pack(side = tk.LEFT)
+            pixel = tk.PhotoImage(width=1, height=1)
+            #button = tk.Button(root, text="", image=pixel, width=100, height=100, compound="c")
+            self.markers[len(self.markers)-1] = tk.Button( self, text='sm', image=pixel, width=new_width, height=20, compound="c")
+            self.markers[len(self.markers)-1].config(text = slider_value)
+            self.markers[len(self.markers)-1].pack(side = tk.LEFT)
+
+
+
 
     def create_Widgets ( self ):
         '''Create Buttons (e.g. Start & Stop ) and Progress Bar.''' 
         print( '\ndef create_Widgets ( self ):' )
 
-        self.line_label = tk.Label( self, text='line'+str(self.index) )
-        self.line_label.config(width = 16, height = 3)
+        pixel = tk.PhotoImage(width=1, height=1)
+
+        self.line_label = tk.Button( self, text='line'+str(self.index), image=pixel, width=160, height=20, compound="c")
+
+        self.line_label.config(width = 140, height = 20)
         self.line_label.pack(side=tk.LEFT, anchor='w')
+        self.label_pixel_width = self.line_label.winfo_width()
         # self.playBut = tk.Button( self, text='WTF' )
         # self.playBut.pack(side=tk.LEFT, anchor='w')
 
