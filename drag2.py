@@ -21,6 +21,8 @@ default_colors = ["#000000",
 "#00FFFF",
 "#FF00FF"]
 
+
+
 def main():
     canvas_width = 300
     canvas_height =300
@@ -38,29 +40,38 @@ def main():
 
     current_colors = default_colors
 
+    #cur_markers = [[0 for i in range(cols)] for j in range(rows)]
+
     def keypress_handler(event):
         # Replace the window's title with event.type: input key
         print(event.char)
 
         array = np.array(key_labels)
         solutions = np.argwhere(array == event.char.upper())
-        print(solutions)
+        print('solutions1', solutions)
         music.test_print()
-        #print('sol00',solutions[0][0])
-        key_color = keys[solutions[0][0]][solutions[0][1]]['bg']
-        timelines[solutions[0][0]].set_marker(solutions[0][0], solutions[0][1], music.slider.get(), music.slider_width, key_color)
-
+        key_row = solutions[0][0]
+        key_column = solutions[0][1]
+        cur_slider_time = music.slider.get()
+        key_color = keys[key_row][key_column]['bg']
+        #print('cur_markers', cur_markers)
+        #print(len(cur_markers))
+        print('key_row', key_row)
+        #cur_markers[key_row] = add_marker(cur_markers[key_row], cur_slider_time, key_color)
+        #print('cur_markers', cur_markers)
+        #timelines[key_row].set_marker(key_row, key_column, cur_slider_time, music.slider_width, key_color)
+        timelines[key_row].add_marker(cur_slider_time, key_color, music.slider_width)
         #print()
 
     event_sequence = '<KeyPress>'
     root.bind(event_sequence, keypress_handler)
-    root.bind('<KeyRelease>', keypress_handler)
+    #root.bind('<KeyRelease>', keypress_handler)
 
 
     track_length = OggVorbis('output.ogg').info.length
     timelines = [None]*4
     for i in range(4):        
-        timelines[i] = TimeLine( root, i, track_length)
+        timelines[i] = TimeLine( root, i, track_length, w)
         timelines[i].pack(anchor='w')
     music = MusicPlayer( root, tracktype='ogg' )
     #keys = [[None]*10]*4
