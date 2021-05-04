@@ -52,39 +52,45 @@ class TimeLine( tk.Frame ):
         print('guess', int(self.music_slider_width*slider_value/self.track_length))
         print('self.label_pixel_width', self.label_pixel_width)
         
-        new_width = int((((self.music_slider_width*slider_value)/self.track_length)-100) - total_marker_width)
+        new_width = int(((self.music_slider_width*slider_value)/self.track_length) - total_marker_width)
         print('new_width', new_width)
         while new_width < 0:           
             print('forget')
             self.markers[len(self.markers)-1].pack_forget()
             self.markers.pop()
             total_marker_width = self.get_total_marker_width()
-            new_width = int((((self.music_slider_width*slider_value)/self.track_length)-100) - total_marker_width)
+            new_width = int((((self.music_slider_width*slider_value)/self.track_length)) - total_marker_width)
         if new_width > 0:
             self.markers.append(None)
             print('slider_value',slider_value)
             #print(previous_marker_width)
             print('---')
             pixel = tk.PhotoImage(width=1, height=1)
+
             #button = tk.Button(root, text="", image=pixel, width=100, height=100, compound="c")
-            self.markers[len(self.markers)-1] = tk.Button( self, text='sm', image=pixel, width=new_width, height=20, compound="c")
-            self.markers[len(self.markers)-1].config(text = slider_value, bg=color)
+            self.markers[len(self.markers)-1] = tk.Button( self, text='', image=pixel, width=new_width, height=20, compound="c")
+            self.markers[len(self.markers)-1].config(bg=color, highlightthickness = 0)
             self.markers[len(self.markers)-1].pack(side = tk.LEFT)
 
 
-
+#try creating rects instead of buttons, save times to external variable, even back it up text file
+            w = tk.Canvas(self, width=1250, height=1200)
+            w.create_rectangle(0, 0, 100, 1000, fill="blue", outline = 'blue')
+            w.create_rectangle(50, 50, 100, 1000, fill="red", outline = 'blue') 
+            w.pack()
+      
 
     def create_Widgets ( self ):
         '''Create Buttons (e.g. Start & Stop ) and Progress Bar.''' 
         print( '\ndef create_Widgets ( self ):' )
 
-        pixel = tk.PhotoImage(width=1, height=1)
+        #pixel = tk.PhotoImage(width=1, height=1)
 
-        self.line_label = tk.Button( self, text='line'+str(self.index), image=pixel, width=160, height=20, compound="c")
+        #self.line_label = tk.Button( self, text='line'+str(self.index), image=pixel, width=160, height=20, compound="c")
 
-        self.line_label.config(width = 140, height = 20)
-        self.line_label.pack(side=tk.LEFT, anchor='w')
-        self.label_pixel_width = self.line_label.winfo_width()
+        #self.line_label.config(width = 140, height = 20)
+        #self.line_label.pack(side=tk.LEFT, anchor='w')
+        #self.label_pixel_width = self.line_label.winfo_width()
         # self.playBut = tk.Button( self, text='WTF' )
         # self.playBut.pack(side=tk.LEFT, anchor='w')
 

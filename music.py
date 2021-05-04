@@ -73,26 +73,27 @@ class MusicPlayer( tk.Frame ):
         print( '\ndef create_Widgets ( self ):' )
 
 
-        pixel = tk.PhotoImage(width=1, height=1)
+        #pixel = tk.PhotoImage(width=1, height=1)
             #button = tk.Button(root, text="", image=pixel, width=100, height=100, compound="c")
         #self.markers[len(self.markers)-1] = tk.Button( self, text='sm', image=pixel, width=new_width, height=20, compound="c")
             
+        self.slider_value = tk.DoubleVar()
+        self.slider = tk.Scale( self, to=self.trackLength, orient=tk.HORIZONTAL, length=self.winfo_screenwidth(),
+                                resolution=0.01, showvalue=True, tickinterval=5, digit=5,
+                                variable=self.slider_value, command=self.UpdateSlider )
+        self.slider.pack(side=tk.TOP)
 
-        self.playBut = tk.Button( self, image=pixel, text='Play', command=self.Play, width = 50, height = 20, compound="c" )
+        self.playBut = tk.Button( self, text='Play', command=self.Play, width = 50, height = 20, compound="c" )
         self.playBut.pack(side=tk.LEFT)
         #key_button_frame.pack(side=tkinter.BOTTOM)
 
-        self.stopBut = tk.Button( self, image=pixel, text='Stop', command=self.Stop, width = 50, height = 20, compound="c" )
+        self.stopBut = tk.Button( self, text='Stop', command=self.Stop, width = 50, height = 20, compound="c" )
         self.stopBut.pack(side=tk.LEFT,padx=10)
 
         button_widths = self.playBut.winfo_width() + self.stopBut.winfo_width() + 10
         #print('self.butFrame.winfo_width()', self.butFrame.winfo_width())
 
-        self.slider_value = tk.DoubleVar()
-        self.slider = tk.Scale( self, to=self.trackLength, orient=tk.HORIZONTAL, length=self.winfo_screenwidth()-160,
-                                resolution=0.01, showvalue=True, tickinterval=5, digit=5,
-                                variable=self.slider_value, command=self.UpdateSlider )
-        self.slider.pack(side=tk.LEFT)
+
 
         self.slider_width = self.slider.winfo_screenwidth()
 
