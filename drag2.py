@@ -38,7 +38,7 @@ def main():
 
     current_colors = default_colors
 
-    def event_handle(event):
+    def keypress_handler(event):
         # Replace the window's title with event.type: input key
         print(event.char)
 
@@ -47,12 +47,14 @@ def main():
         print(solutions)
         music.test_print()
         #print('sol00',solutions[0][0])
-        timelines[solutions[0][0]].set_marker(solutions[0][0], solutions[0][1], music.slider.get(), music.slider_width)
+        key_color = keys[solutions[0][0]][solutions[0][1]]['bg']
+        timelines[solutions[0][0]].set_marker(solutions[0][0], solutions[0][1], music.slider.get(), music.slider_width, key_color)
+
         #print()
 
     event_sequence = '<KeyPress>'
-    root.bind(event_sequence, event_handle)
-    root.bind('<KeyRelease>', event_handle)
+    root.bind(event_sequence, keypress_handler)
+    root.bind('<KeyRelease>', keypress_handler)
 
 
     track_length = OggVorbis('output.ogg').info.length

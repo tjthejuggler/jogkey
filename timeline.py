@@ -41,7 +41,7 @@ class TimeLine( tk.Frame ):
                 total_marker_width += o['width']
         return total_marker_width
 
-    def set_marker(self, i, j, slider_value, music_slider_width):
+    def set_marker(self, i, j, slider_value, music_slider_width, color):
         print("xxx", i, j, slider_value)
         self.music_slider_width = music_slider_width
         total_marker_width = self.get_total_marker_width()
@@ -68,7 +68,7 @@ class TimeLine( tk.Frame ):
             pixel = tk.PhotoImage(width=1, height=1)
             #button = tk.Button(root, text="", image=pixel, width=100, height=100, compound="c")
             self.markers[len(self.markers)-1] = tk.Button( self, text='sm', image=pixel, width=new_width, height=20, compound="c")
-            self.markers[len(self.markers)-1].config(text = slider_value)
+            self.markers[len(self.markers)-1].config(text = slider_value, bg=color)
             self.markers[len(self.markers)-1].pack(side = tk.LEFT)
 
 
