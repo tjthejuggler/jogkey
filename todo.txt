@@ -1,26 +1,14 @@
-may playback/edit toggle
-find out if actually overwriting markers when push slider back
-	we might only want it to change the current one(maybe this could be a setting)
-
 a way to make fade
 a way to make strobe?
 
 a way to manually edit markers with numbers
-
-a way to save
+	this can currently be done in files, but would be better in a popup text edit
 
 put text boxes next to virtual balls for real ball chanels
 
 real life ball playback
 
-create graphic interface
-
 user can create "paints" which are solid colors, strobes, or fades
 	strobe is essentially a fade, just with a very quick transition
 
 figure out if using built in secuence is necessary or if should just use my own
-
-allow keyboard tapping creation 
-
-allow mapping of keys to paints
-
