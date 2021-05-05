@@ -1,5 +1,6 @@
 import tkinter
 import tkinter.colorchooser
+import tkinter.filedialog
 from mutagen.oggvorbis import OggVorbis
 from music import *
 from timeline import *
@@ -44,6 +45,25 @@ def main():
         print('key_row', key_row)
         timelines[key_row].add_marker(cur_slider_time, key_color, music.slider_width)
         music.update_timeline_markers(timelines[key_row].marker_data,key_row)
+
+    def file_save():
+
+        print('save',tkinter.filedialog.askdirectory())
+        f = tkinter.filedialog.askdirectory()
+        if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+            return
+#make a for loop here that makes 5 files in our directory, timelines and key config
+
+        f.write(timelines)
+        f.close() 
+
+    def file_open():
+        print('file_open',tkinter.filedialog.askopenfilename())
+
+#maybe markers should be a dict
+
+    save_button = tkinter.Button(root, command=file_save, text="Save").pack()
+    save_button = tkinter.Button(root, command=file_open, text="Open").pack()
 
 
     event_sequence = '<KeyPress>'

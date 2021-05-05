@@ -9,7 +9,7 @@ a way to manually edit markers with numbers
 
 a way to save
 
-onscreen ball playback
+put text boxes next to virtual balls for real ball chanels
 
 real life ball playback
 
