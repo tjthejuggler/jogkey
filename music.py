@@ -7,6 +7,7 @@ from mutagen import MutagenError
 from pygame import mixer
 import tkinter as tk
 import tkinter.messagebox as tkMessageBox
+from ball import *
 
 
 class MusicPlayer( tk.Frame ):
@@ -26,11 +27,17 @@ class MusicPlayer( tk.Frame ):
         self.slider = None       # Progress Bar
         self.slider_value = None # Progress Bar value
         self.slider_width = None
+        self.my_balls = [None]*4
+        self.timeline_markers = [None]*4
 
         # Call these methods
         self.get_AudioFile_MetaData( tracktype )
         self.load_AudioFile()
         self.create_Widgets()
+
+    def update_timeline_markers(self,marker, index):
+        print('music update timeline markers', marker, index)
+        self.timeline_markers[index] = marker
 
     def test_print(self):
         print("crazy test")
@@ -90,6 +97,10 @@ class MusicPlayer( tk.Frame ):
         self.stopBut = tk.Button( self, text='Stop', command=self.Stop, width = 50, height = 20, compound="c" )
         self.stopBut.pack(side=tk.LEFT,padx=10)
 
+        for i in range(4):
+            self.my_balls[i] = Ball( self )
+            self.my_balls[i].pack()
+
         button_widths = self.playBut.winfo_width() + self.stopBut.winfo_width() + 10
         #print('self.butFrame.winfo_width()', self.butFrame.winfo_width())
 
@@ -99,19 +110,21 @@ class MusicPlayer( tk.Frame ):
 
 
     def Play( self ):
-        print('play')
+        #print('play')
         '''Play track from slider location.'''
-        print('\ndef Play():')
+        #print('\ndef Play():')
         #1. Get slider location.
         #2. Play music from slider location.
         #3. Update slider location (use tk's .after loop)
-        playtime = self.slider_value.get();       print( type(playtime),'playtime = ',playtime,'sec' )
-        self.player.music.play( start=playtime ); print( 'Play Started' )
+        playtime = self.slider_value.get();       #print( type(playtime),'playtime = ',playtime,'sec' )
+        self.player.music.play( start=playtime ); #print( 'Play Started' )
         self.TrackPlay( playtime )
 
 
     def TrackPlay( self, playtime ):
-        #print('trackplay')
+        for index, ball in enumerate(self.my_balls):
+
+            ball.update_color(self.timeline_markers[index], playtime)
         '''Slider to track the playing of the track.'''
         #print('\ndef TrackPlay():')
         #1.When track is playing

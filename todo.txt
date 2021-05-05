@@ -1,3 +1,18 @@
+may playback/edit toggle
+find out if actually overwriting markers when push slider back
+	we might only want it to change the current one(maybe this could be a setting)
+
+a way to make fade
+a way to make strobe?
+
+a way to manually edit markers with numbers
+
+a way to save
+
+onscreen ball playback
+
+real life ball playback
+
 create graphic interface
 
 user can create "paints" which are solid colors, strobes, or fades
