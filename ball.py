@@ -8,6 +8,19 @@ from pygame import mixer
 import tkinter as tk
 import tkinter.messagebox as tkMessageBox
 
+import sys
+import os
+import pygame
+import pygame.midi
+from pygame.locals import *
+from socket import *
+import struct
+import time
+
+
+udp_header = struct.pack("!bIBH", 66, 0, 0, 0)
+s = socket(AF_INET, SOCK_DGRAM)
+
 class Ball( tk.Frame ):
 
     def __init__(self, master, *args, **kwargs):
@@ -31,9 +44,17 @@ class Ball( tk.Frame ):
         self.canvas.pack(padx=15, anchor = 'w')
         self.canvas.create_oval(0, 0, 100, 100, fill = color)
 
+    # def change_real_color(self, color):
+    #     return
+    #     #print('change real color', color, self.ip)
+
     def change_real_color(self, color):
-        return
-        #print('change real color', color, self.ip)
+        print('rgb'+str(tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))))
+        rgb = tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+        print('change color', color)
+        data = struct.pack("!BBBB", 0x0a, rgb[0], rgb[1], rgb[2])
+        print('the self ip', self.ip)
+        s.sendto(udp_header+data, ('192.168.43.'+self.ip, 41412));
 
     def update_color(self, timeline_markers, playtime):
         if timeline_markers:
@@ -54,8 +75,6 @@ class Ball( tk.Frame ):
             self.canvas.pack()
             previous_markers_right_value =+ marker[0]
 
-
-
 #use ip to send color change to real balls
 
 
@@ -65,13 +84,13 @@ class Ball( tk.Frame ):
     def create_Widgets ( self ):
         def OnSpinBoxChange(event):
             self.ip=self.sv.get().strip()
-            print(value, 'Text has changed ? ')
+            print('Text has changed ? ', self.ip)
             self.focus()
         self.sv = tk.StringVar()
         print( '\ndef create_Widgets ( self ):' )
         self.canvas = tk.Canvas(self, width=100, height=100)
         self.canvas.pack(padx=15, anchor = 'w')
         self.canvas.create_oval(0, 0, 100, 100, fill = "black")
-        self.spinbox = tk.Spinbox(self.canvas, from_= 0, to = 20, validate="focusout" )
+        self.spinbox = tk.Spinbox(self.canvas, from_= 0, to = 120, textvariable=self.sv, validate="focusout" )
         self.spinbox.bind("<KeyRelease>", OnSpinBoxChange)
         self.spinbox.place(x = 25, y = 30, width = 50)  
