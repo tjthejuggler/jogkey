@@ -60,11 +60,17 @@ def main():
         f.write(timelines)
         f.close() 
 
-    def file_open():
-        print('file_open',tkinter.filedialog.askopenfilename())
+    def file_load():
+        print('file_load',tkinter.filedialog.askopenfilename())
+        # folder_name = tkinter.filedialog.askopenfilename()
+        # #if folder exists
+        #     for i in range(4):
+        #         filename = folder_name+"_markers_"+i 
+        #         if filename exists:
+        #             timelines[i].set_marker_data(filename)
 
     save_button = tkinter.Button(root, command=file_save, text="Save").pack()
-    save_button = tkinter.Button(root, command=file_open, text="Open").pack()
+    load_button = tkinter.Button(root, command=file_load, text="Load").pack()
 
 
     event_sequence = '<KeyPress>'

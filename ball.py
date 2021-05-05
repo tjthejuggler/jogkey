@@ -36,13 +36,13 @@ class Ball( tk.Frame ):
     #     print('pixel', pixel)
     #     return pixel
 
-    def set_IP(ip):
+    def set_IP(self, ip):
         self.ip = ip
 
-    def get_color_from_playtime(self, playtime, timeline_markers):
-        for marker in timeline_markers:
-            if marker[0] == playtime:
-                return marker[1]
+    # def get_color_from_playtime(self, playtime, timeline_markers):
+    #     for key, value in timeline_markers.items():
+    #         if key == playtime:
+    #             return marker[1]
 
     def change_virtual_color(self, color):
         self.canvas.delete("all")
@@ -56,12 +56,15 @@ class Ball( tk.Frame ):
         #print('timeline_markers', timeline_markers)
         if timeline_markers:
             getNextLowest  = lambda seq,x: min([(x-i,i) for i in seq if x>=i] or [(0,None)])
-            newLowest = getNextLowest([i[0] for i in timeline_markers], playtime)
+            newLowest = getNextLowest(list(timeline_markers.keys()), playtime)
             print('timeline_markers', timeline_markers)
             print('newLowest',newLowest)
-            nextLowestColor = self.get_color_from_playtime(newLowest[1], timeline_markers)
-            self.change_virtual_color( nextLowestColor )
-            self.change_real_color( nextLowestColor)
+            print('newLowest[1]',newLowest[1])
+            #nextLowestColor = self.get_color_from_playtime(newLowest[1], timeline_markers)
+            if newLowest[1] != None:
+                nextLowestColor = timeline_markers[newLowest[1]]
+                self.change_virtual_color( nextLowestColor )
+                self.change_real_color( nextLowestColor)
 
     def update_rects(self):
         self.canvas.delete("all")
