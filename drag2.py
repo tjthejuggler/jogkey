@@ -52,6 +52,9 @@ def main():
         f = tkinter.filedialog.askdirectory()
         if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
             return
+
+#change marker_data to dict
+
 #make a for loop here that makes 5 files in our directory, timelines and key config
 
         f.write(timelines)
@@ -59,8 +62,6 @@ def main():
 
     def file_open():
         print('file_open',tkinter.filedialog.askopenfilename())
-
-#maybe markers should be a dict
 
     save_button = tkinter.Button(root, command=file_save, text="Save").pack()
     save_button = tkinter.Button(root, command=file_open, text="Open").pack()

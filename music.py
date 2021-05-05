@@ -100,6 +100,7 @@ class MusicPlayer( tk.Frame ):
         for i in range(4):
             self.my_balls[i] = Ball( self )
             self.my_balls[i].pack()
+            self.my_balls.set_IP('11')
 
         button_widths = self.playBut.winfo_width() + self.stopBut.winfo_width() + 10
         #print('self.butFrame.winfo_width()', self.butFrame.winfo_width())

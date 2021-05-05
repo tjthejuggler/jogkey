@@ -18,6 +18,7 @@ class Ball( tk.Frame ):
         self.track_length = None
         self.canvas = None
         self.virtual_ball = None
+        self.ip = None
         self.create_Widgets()
 
     # def get_total_marker_width(self):
@@ -35,15 +36,21 @@ class Ball( tk.Frame ):
     #     print('pixel', pixel)
     #     return pixel
 
+    def set_IP(ip):
+        self.ip = ip
+
     def get_color_from_playtime(self, playtime, timeline_markers):
         for marker in timeline_markers:
             if marker[0] == playtime:
                 return marker[1]
 
-    def change_color(self, color):
+    def change_virtual_color(self, color):
         self.canvas.delete("all")
         self.canvas.pack(padx=15, anchor = 'w')
         self.canvas.create_oval(0, 0, 50, 50, fill = color)
+
+    def change_real_color(self, color):
+        print('change real color', color, self.ip)
 
     def update_color(self, timeline_markers, playtime):
         #print('timeline_markers', timeline_markers)
@@ -53,7 +60,8 @@ class Ball( tk.Frame ):
             print('timeline_markers', timeline_markers)
             print('newLowest',newLowest)
             nextLowestColor = self.get_color_from_playtime(newLowest[1], timeline_markers)
-            self.change_color( nextLowestColor)
+            self.change_virtual_color( nextLowestColor )
+            self.change_real_color( nextLowestColor)
 
     def update_rects(self):
         self.canvas.delete("all")
@@ -83,6 +91,8 @@ class Ball( tk.Frame ):
         self.canvas = tk.Canvas(self, width=50, height=50)
         self.canvas.pack(padx=15, anchor = 'w')
         self.canvas.create_oval(0, 0, 50, 50, fill = "black")
+
+        #next to each oval should be an input, if the input changes, call self.set_IP
 
 
 
