@@ -1,12 +1,17 @@
 a way to make fade
-a way to make strobe?
+	a button that is 'this gap is to be a fade' that get pressed in between two colors
+	or
+	a toggleable option with 1,q,a,z that is 'fade mode' for each of them
+	a possibly different fade is one where you start holding control, and until you press another key,
+		that is how long the fade goes on for
+
+a way to strobe
+	instead of a color wheel, have a mini one track window pop up that can be done and "saved to a key"
+
 
 a way to manually edit markers with numbers
 	this can currently be done in files, but would be better in a popup text edit
-
-put text boxes next to virtual balls for real ball chanels
-
-real life ball playback
+	open a big editable text with the whole marker in it
 
 user can create "paints" which are solid colors, strobes, or fades
 	strobe is essentially a fade, just with a very quick transition

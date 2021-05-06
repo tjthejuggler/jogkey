@@ -23,6 +23,7 @@ class TimeLine( tk.Frame ):
         self.screen_width = screen_width*.95
         self.label_pixel_width = None
         self.canvas = None
+        self.most_recent_marker_time = 0
         self.create_Widgets()
 
     def set_marker_data(self, data):
@@ -61,6 +62,7 @@ class TimeLine( tk.Frame ):
                     del self.marker_data[key]
             self.marker_data[cur_slider_time] = key_color
         self.update_rects()    
+        self.most_recent_marker_time = cur_slider_time
 
     def create_Widgets ( self ):
         print( '\ndef create_Widgets ( self ):' )

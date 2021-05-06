@@ -33,7 +33,7 @@ class MusicPlayer( tk.Frame ):
         self.load_AudioFile()
         self.create_Widgets()
 
-    def update_timeline_markers(self,marker, index):
+    def update_timeline_markers(self, marker, index):
         print('music update timeline markers', marker, index)
         self.timeline_markers[index] = marker
 
@@ -99,6 +99,9 @@ class MusicPlayer( tk.Frame ):
                                                #print( 'self.loopID = ', self.loopID ) 
         else:
             print('Track Ended')
+
+    def getCurrentBallColor( self, index ):
+        return self.my_balls[index].currentColor
 
 
     def UpdateSlider( self, value ):

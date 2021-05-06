@@ -10,7 +10,7 @@ import tkinter.messagebox as tkMessageBox
 
 import sys
 import os
-import pygame
+import pygame 
 import pygame.midi
 from pygame.locals import *
 from socket import *
@@ -31,6 +31,7 @@ class Ball( tk.Frame ):
         self.track_length = None
         self.canvas = None
         self.virtual_ball = None
+        self.currentColor = "Black"
         self.ip = None
         self.entry = None
         self.sv = None
@@ -49,11 +50,12 @@ class Ball( tk.Frame ):
     #     #print('change real color', color, self.ip)
 
     def change_real_color(self, color):
-        print('rgb'+str(tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))))
+        print('ch color', color)
+        #print('rgb'+str(tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))))
         rgb = tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
-        print('change color', color)
+        #print('change color', color)
         data = struct.pack("!BBBB", 0x0a, rgb[0], rgb[1], rgb[2])
-        print('the self ip', self.ip)
+        #print('the self ip', self.ip)
         s.sendto(udp_header+data, ('192.168.43.'+self.ip, 41412));
 
     def update_color(self, timeline_markers, playtime):
@@ -64,6 +66,7 @@ class Ball( tk.Frame ):
                 nextLowestColor = timeline_markers[newLowest[1]]
                 self.change_virtual_color( nextLowestColor )
                 self.change_real_color( nextLowestColor)
+                self.currentColor = nextLowestColor
 
     def update_rects(self):
         self.canvas.delete("all")
