@@ -56,7 +56,7 @@ class TimeLine( tk.Frame ):
         if len(self.marker_data) == 0:
             self.marker_data[cur_slider_time] = key_color
         elif len(self.marker_data) > 0:
-            print('cur_slider_time', cur_slider_time)
+            #print('cur_slider_time', cur_slider_time)
             for key, value in self.marker_data.items():
                 if cur_slider_time < key:
                     del self.marker_data[key]

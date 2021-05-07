@@ -9,6 +9,8 @@ from os import path
 from pathlib import Path
 import json
 import colour
+import mbox
+
 
 from music import *
 from timeline import *
@@ -31,7 +33,13 @@ default_colors = ["#000000",
 
 def main():
     canvas_width, canvas_height = 300, 300
+
+
     root = tkinter.Tk()
+
+    Mbox = mbox.Mbox
+    Mbox.root = root
+
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
     track_length = OggVorbis('output.ogg').info.length
@@ -59,15 +67,18 @@ def main():
                     #i think it just be another item with a proper timestamp that just says "fade"
                 #then show the updated timeline with a fade showing
             lower_array = np.array(lower_key_labels)
-            lower_solutions = np.argwhere(lower_array == event.char.upper())
+            lower_solutions = np.argwhere(lower_array == event.char)
             if lower_solutions.size > 0:
                 solutions = lower_solutions
             upper_array = np.array(upper_key_labels)
-            upper_solutions = np.argwhere(upper_array == event.char.upper())
+            upper_solutions = np.argwhere(upper_array == event.char)
+            print('upper_solutions', upper_solutions)
             if upper_solutions.size > 0:
+                print('upper_solutions.size', upper_solutions.size)
                 solutions = upper_solutions
                 fade = True
             print('solutions1', solutions)
+            print('fade', fade)
             music.test_print()
             if solutions.size > 0:
                 key_row = solutions[0][0]
@@ -76,9 +87,9 @@ def main():
                 key_color = keys[key_row][key_column]['bg']
                 print('key_row', key_row)
                 if fade:
-                    print('fade')
+                    #print('fade')
                     previousColor = music.getCurrentBallColor( key_row )#i need a previous time as well to determine to fade timestamps
-                    print('previousColor', previousColor)
+                    #print('previousColor', previousColor)
                     fade_levels = 100
                     fade_colors = list(colour.Color(previousColor).range_to(colour.Color(key_color),fade_levels))
                     previousMarkerTime = timelines[key_row].most_recent_marker_time
@@ -86,10 +97,10 @@ def main():
                     gap_increment = fade_gap_length / fade_levels
                     for index, fade_color in enumerate(fade_colors):
 
-                        print('key_color', key_color)
-                        print('control held', fade_color)
-                        print('dasd', previousMarkerTime + (index * gap_increment))
-                        print('cur_slider_time', cur_slider_time)
+                        #print('key_color', key_color)
+                        #print('control held', fade_color)
+                        #print('dasd', previousMarkerTime + (index * gap_increment))
+                        #print('cur_slider_time', cur_slider_time)
                         timelines[key_row].add_marker(previousMarkerTime + (index * gap_increment), fade_color.hex_l, music.slider_width)
                         music.update_timeline_markers(timelines[key_row].marker_data,key_row)
                 else:
@@ -148,6 +159,11 @@ def main():
 
     def right_click( self ):
         print('right_click')#this right click is where we show the mini editor
+        #root.grab_set()
+        D = {'user':'Bob'}
+
+        Mbox('Name?', (D, 'user'))
+        
 
     key_button_frame = tkinter.Frame(root, 
                width=canvas_width, 

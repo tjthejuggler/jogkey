@@ -21,6 +21,8 @@ import time
 udp_header = struct.pack("!bIBH", 66, 0, 0, 0)
 s = socket(AF_INET, SOCK_DGRAM)
 
+ball_size = 120
+
 class Ball( tk.Frame ):
 
     def __init__(self, master, *args, **kwargs):
@@ -43,15 +45,9 @@ class Ball( tk.Frame ):
     def change_virtual_color(self, color):
         self.canvas.delete("all")
         self.canvas.pack(padx=15, anchor = 'w')
-        self.canvas.create_oval(0, 0, 100, 100, fill = color)
-
-    # def change_real_color(self, color):
-    #     return
-    #     #print('change real color', color, self.ip)
+        self.canvas.create_oval(0, 0, ball_size, ball_size, fill = color)
 
     def change_real_color(self, color):
-        print('ch color', color)
-        #print('rgb'+str(tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))))
         rgb = tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
         #print('change color', color)
         data = struct.pack("!BBBB", 0x0a, rgb[0], rgb[1], rgb[2])
@@ -68,15 +64,15 @@ class Ball( tk.Frame ):
                 self.change_real_color( nextLowestColor)
                 self.currentColor = nextLowestColor
 
-    def update_rects(self):
-        self.canvas.delete("all")
-        previous_markers_right_value = 0
-        for index, marker in enumerate(self.marker_data):        
-            previous_markers_right_pixel = self.get_pixel_from_value(previous_markers_right_value)
-            this_markers_right_pixel = previous_markers_right_pixel + self.get_pixel_from_value(marker[0])            
-            self.canvas.create_rectangle(this_markers_right_pixel-previous_markers_right_pixel, 0, 1920, 30, fill=marker[1], outline = "")
-            self.canvas.pack()
-            previous_markers_right_value =+ marker[0]
+    # def update_rects(self):
+    #     self.canvas.delete("all")
+    #     previous_markers_right_value = 0
+    #     for index, marker in enumerate(self.marker_data):        
+    #         previous_markers_right_pixel = self.get_pixel_from_value(previous_markers_right_value)
+    #         this_markers_right_pixel = previous_markers_right_pixel + self.get_pixel_from_value(marker[0])            
+    #         self.canvas.create_rectangle(this_markers_right_pixel-previous_markers_right_pixel, 0, 1920, 30, fill=marker[1], outline = "")
+    #         self.canvas.pack()
+    #         previous_markers_right_value =+ marker[0]
 
 #use ip to send color change to real balls
 
@@ -89,11 +85,15 @@ class Ball( tk.Frame ):
             self.ip=self.sv.get().strip()
             print('Text has changed ? ', self.ip)
             self.focus()
+        def editbutton_clicked():
+            print('editbutton_clicked')
         self.sv = tk.StringVar()
         print( '\ndef create_Widgets ( self ):' )
-        self.canvas = tk.Canvas(self, width=100, height=100)
+        self.canvas = tk.Canvas(self, width=ball_size, height=ball_size)
         self.canvas.pack(padx=15, anchor = 'w')
-        self.canvas.create_oval(0, 0, 100, 100, fill = "black")
+        self.canvas.create_oval(0, 0, ball_size, ball_size, fill = "black")
         self.spinbox = tk.Spinbox(self.canvas, from_= 0, to = 120, textvariable=self.sv, validate="focusout" )
         self.spinbox.bind("<KeyRelease>", OnSpinBoxChange)
         self.spinbox.place(x = 25, y = 30, width = 50)  
+        self.editbutton = tk.Button(self.canvas, text='edit', command=editbutton_clicked)
+        self.editbutton.place(x=25, y=60, width = 50)

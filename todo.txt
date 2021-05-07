@@ -1,13 +1,9 @@
-a way to make fade
-	a button that is 'this gap is to be a fade' that get pressed in between two colors
-	or
-	a toggleable option with 1,q,a,z that is 'fade mode' for each of them
-	a possibly different fade is one where you start holding control, and until you press another key,
-		that is how long the fade goes on for
+make fade levels count dynamic
 
 a way to strobe
 	instead of a color wheel, have a mini one track window pop up that can be done and "saved to a key"
-
+	even fade should exist in here
+	there should be a definable time length in here and it should wrap to strobe
 
 a way to manually edit markers with numbers
 	this can currently be done in files, but would be better in a popup text edit

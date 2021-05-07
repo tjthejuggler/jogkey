@@ -34,7 +34,7 @@ class MusicPlayer( tk.Frame ):
         self.create_Widgets()
 
     def update_timeline_markers(self, marker, index):
-        print('music update timeline markers', marker, index)
+        #print('music update timeline markers', marker, index)
         self.timeline_markers[index] = marker
 
     def test_print(self):
