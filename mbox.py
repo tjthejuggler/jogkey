@@ -43,6 +43,7 @@ class Mbox(object):
             #d[key] = data
             #self.top.destroy()
             self.result = data
+            self.top.destroy()
 
     def show( self ):
         #self.wm_deiconify()

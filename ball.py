@@ -17,6 +17,8 @@ from socket import *
 import struct
 import time
 
+import texteditbox
+
 
 udp_header = struct.pack("!bIBH", 66, 0, 0, 0)
 s = socket(AF_INET, SOCK_DGRAM)
@@ -87,6 +89,11 @@ class Ball( tk.Frame ):
             self.focus()
         def editbutton_clicked():
             print('editbutton_clicked')
+            test = TextEditBox(self, "testing").show()
+            #test.bind("<Destroy>",testtest())
+            print('test.result444', test.result)
+        TextEditBox = texteditbox.TextEditBox
+        TextEditBox.root = self
         self.sv = tk.StringVar()
         print( '\ndef create_Widgets ( self ):' )
         self.canvas = tk.Canvas(self, width=ball_size, height=ball_size)

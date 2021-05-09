@@ -9,6 +9,7 @@ from pathlib import Path
 import json
 import colour
 import mbox
+import texteditbox
 
 #root = tkinter.Tk()
 
