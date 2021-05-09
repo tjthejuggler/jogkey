@@ -1,4 +1,12 @@
-make fade levels count dynamic
+get rid of D thing in main.py where MBox is called
+
+copy MBox call as editbox for when its clicked
+
+open texteditbox when circle or a button on the cirle is clicked
+
+refactor main, and others
+
+make song selection choosable
 
 a way to strobe
 	instead of a color wheel, have a mini one track window pop up that can be done and "saved to a key"
