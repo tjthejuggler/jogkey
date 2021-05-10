@@ -1,5 +1,7 @@
 get rid of D thing in main.py where MBox is called
 
+make special coding that user sees, where entire fades are just called fades, and maybe color names are commented
+
 copy MBox call as editbox for when its clicked
 
 open texteditbox when circle or a button on the cirle is clicked

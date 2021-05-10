@@ -7,7 +7,7 @@ from mutagen import MutagenError
 from pygame import mixer
 import tkinter as tk
 import tkinter.messagebox as tkMessageBox
-
+import json
 import sys
 import os
 import pygame 
@@ -39,6 +39,7 @@ class Ball( tk.Frame ):
         self.ip = None
         self.entry = None
         self.sv = None
+        self.timeline_markers = None
         self.create_Widgets()
 
     def set_IP(self, ip):
@@ -51,10 +52,11 @@ class Ball( tk.Frame ):
 
     def change_real_color(self, color):
         rgb = tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
-        #print('change color', color)
         data = struct.pack("!BBBB", 0x0a, rgb[0], rgb[1], rgb[2])
-        #print('the self ip', self.ip)
         s.sendto(udp_header+data, ('192.168.43.'+self.ip, 41412));
+
+    def set_timeline_markers(self, timeline_markers):
+        self.timeline_markers = timeline_markers
 
     def update_color(self, timeline_markers, playtime):
         if timeline_markers:
@@ -66,21 +68,14 @@ class Ball( tk.Frame ):
                 self.change_real_color( nextLowestColor)
                 self.currentColor = nextLowestColor
 
-    # def update_rects(self):
-    #     self.canvas.delete("all")
-    #     previous_markers_right_value = 0
-    #     for index, marker in enumerate(self.marker_data):        
-    #         previous_markers_right_pixel = self.get_pixel_from_value(previous_markers_right_value)
-    #         this_markers_right_pixel = previous_markers_right_pixel + self.get_pixel_from_value(marker[0])            
-    #         self.canvas.create_rectangle(this_markers_right_pixel-previous_markers_right_pixel, 0, 1920, 30, fill=marker[1], outline = "")
-    #         self.canvas.pack()
-    #         previous_markers_right_value =+ marker[0]
+    def get_dict_from_text(text):
+        local_dict_file = first_lang+'_'+second_lang+'.json'
+        dest_text = ''
+        if path.exists(cwd+'/local_dictionaries/'+local_dict_file):         
+            with open(cwd+'/local_dictionaries/'+local_dict_file) as json_file:
+                local_dict = json.load(json_file)
 
-#use ip to send color change to real balls
-
-
-#e = Entry(root, textvariable=sv, validate="focusout", validatecommand=callback)
-
+        return dest_text
 
     def create_Widgets ( self ):
         def OnSpinBoxChange(event):
@@ -89,9 +84,14 @@ class Ball( tk.Frame ):
             self.focus()
         def editbutton_clicked():
             print('editbutton_clicked')
-            test = TextEditBox(self, "testing").show()
-            #test.bind("<Destroy>",testtest())
+            print('self.timeline_markers', self.timeline_markers)
+            results = json.dumps(self.timeline_markers)
+            print('results',results)
+            test = TextEditBox(results).show()
+            self.timeline_markers = test
             print('test.result444', test.result)
+
+
         TextEditBox = texteditbox.TextEditBox
         TextEditBox.root = self
         self.sv = tk.StringVar()

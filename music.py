@@ -36,6 +36,7 @@ class MusicPlayer( tk.Frame ):
     def update_timeline_markers(self, marker, index):
         #print('music update timeline markers', marker, index)
         self.timeline_markers[index] = marker
+        self.my_balls[index].set_timeline_markers(self.timeline_markers[index])
 
     def test_print(self):
         print("crazy test")
@@ -56,6 +57,12 @@ class MusicPlayer( tk.Frame ):
             trackLength = f.info.length
         self.track = audiofile
         self.trackLength = trackLength; print( 'self.trackLength',type(self.trackLength),self.trackLength,' sec' )
+
+    def get_edited_markers_from_balls( self ):
+        markers = [None]*4
+        for index, ball in enumerate(my_balls):
+            markers[index] = my_balls[index].timeline_markers
+
 
 
     def load_AudioFile( self ):
@@ -103,7 +110,6 @@ class MusicPlayer( tk.Frame ):
     def getCurrentBallColor( self, index ):
         return self.my_balls[index].currentColor
 
-
     def UpdateSlider( self, value ):
         if self.player.music.get_busy():
             self.after_cancel( self.loopID ) #Cancel PlayTrack loop    
@@ -117,7 +123,6 @@ class MusicPlayer( tk.Frame ):
         if self.player.music.get_busy():
             self.player.music.stop()
             print('Play Stopped')
-
 
 def ask_quit():
     if tkMessageBox.askokcancel("Quit", "Exit MusicPlayer"):

@@ -43,7 +43,14 @@ def main():
     current_colors = default_colors
 
 
+    def handle_focus(event):
+        if event.widget == root:
+            print("I have gained the focus")
+            #get the new dict from music and balls and give it to timeline
+            #organize stuff in main so all functins are together at bottom or top   
 
+
+    root.bind("<FocusIn>", handle_focus)
 
 
 
@@ -163,6 +170,9 @@ def main():
             #keys[i][j].bind("<Button-1>", left_click)
             keys[i][j].bind("<Button-3>", right_click)
     print('keys1',keys)
+
+
+
 
     root.mainloop()
 
