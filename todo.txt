@@ -4,8 +4,6 @@ make special coding that user sees, where entire fades are just called fades, an
 
 copy MBox call as editbox for when its clicked
 
-open texteditbox when circle or a button on the cirle is clicked
-
 refactor main, and others
 
 make song selection choosable
@@ -14,10 +12,6 @@ a way to strobe
 	instead of a color wheel, have a mini one track window pop up that can be done and "saved to a key"
 	even fade should exist in here
 	there should be a definable time length in here and it should wrap to strobe
-
-a way to manually edit markers with numbers
-	this can currently be done in files, but would be better in a popup text edit
-	open a big editable text with the whole marker in it
 
 user can create "paints" which are solid colors, strobes, or fades
 	strobe is essentially a fade, just with a very quick transition

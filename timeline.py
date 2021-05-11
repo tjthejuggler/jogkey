@@ -60,6 +60,8 @@ class TimeLine( tk.Frame ):
 
     def add_marker(self, cur_slider_time, key_color, screen_width):
         print('self.marker_data', self.marker_data)
+        if not self.marker_data:
+            self.marker_data = {}
         if len(self.marker_data) == 0:
             self.marker_data[cur_slider_time] = key_color
         elif len(self.marker_data) > 0:
