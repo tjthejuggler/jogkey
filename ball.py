@@ -16,13 +16,10 @@ from pygame.locals import *
 from socket import *
 import struct
 import time
-
 import texteditbox
-
 
 udp_header = struct.pack("!bIBH", 66, 0, 0, 0)
 s = socket(AF_INET, SOCK_DGRAM)
-
 ball_size = 120
 
 class Ball( tk.Frame ):
@@ -76,14 +73,15 @@ class Ball( tk.Frame ):
         if path.exists(cwd+'/local_dictionaries/'+local_dict_file):         
             with open(cwd+'/local_dictionaries/'+local_dict_file) as json_file:
                 local_dict = json.load(json_file)
-
         return dest_text
 
     def create_Widgets ( self ):
+
         def OnSpinBoxChange(event):
             self.ip=self.sv.get().strip()
             print('Text has changed ? ', self.ip)
             self.focus()
+            
         def editbutton_clicked():
             print('editbutton_clicked')
             print('self.timeline_markers', self.timeline_markers)
@@ -92,7 +90,6 @@ class Ball( tk.Frame ):
             test = TextEditBox(results).show()
             self.timeline_markers = test.result
             print('test.result444', test.result)
-
 
         TextEditBox = texteditbox.TextEditBox
         TextEditBox.root = self

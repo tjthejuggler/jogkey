@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
 from mutagen.mp3 import MP3
 from mutagen.oggvorbis import OggVorbis
 from mutagen import MutagenError
@@ -8,7 +7,6 @@ from pygame import mixer
 import tkinter as tk
 import tkinter.messagebox as tkMessageBox
 from ball import *
-
 
 class MusicPlayer( tk.Frame ):
 
@@ -28,7 +26,6 @@ class MusicPlayer( tk.Frame ):
         self.slider_width = None
         self.my_balls = [None]*4
         self.timeline_markers = [None]*4
-
         self.get_AudioFile_MetaData( tracktype )
         self.load_AudioFile()
         self.create_Widgets()
@@ -64,8 +61,6 @@ class MusicPlayer( tk.Frame ):
         for index, ball in enumerate(self.my_balls):
             markers[index] = self.my_balls[index].timeline_markers
         return markers
-
-
 
     def load_AudioFile( self ):
         print( '\ndef load_AudioFile( self, audiofile ):' )
@@ -105,7 +100,6 @@ class MusicPlayer( tk.Frame ):
             self.slider_value.set( playtime ); #print( type(self.slider_value.get()),'slider_value = ',self.slider_value.get() )
             playtime += .01 
             self.loopID = self.after(10, lambda:self.TrackPlay( playtime ) );\
-                                               #print( 'self.loopID = ', self.loopID ) 
         else:
             print('Track Ended')
 

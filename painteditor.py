@@ -1,5 +1,6 @@
 import tkinter
 from tkinter.scrolledtext import ScrolledText
+
 class TextEditBox(object):
 
     root = None
@@ -35,14 +36,3 @@ class TextEditBox(object):
         self.entry.focus_force()
         self.top.wait_window()
         return self
-
-#hook up get_edited_markers_from_balls in music.py
-    #it needs to be called when focus returns, and it needs to get the edited markers from each ball and plug them in, and reload timelines with the new ones
-        #change this into a mini editor
-            #it needs to be bigger
-            #needs all key buttons
-            #music timeline hooked to size indicated by an antry    
-                #timeline numbers could be in % so it doesn't matter if it gets the entry time
-            #load/save
-        #change this name
-        #rename other things
