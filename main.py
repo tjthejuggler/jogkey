@@ -46,6 +46,14 @@ def main():
     def handle_focus(event):
         if event.widget == root:
             print("I have gained the focus")
+            returned_markers = music.get_edited_markers_from_balls()
+            for index, markers in enumerate(returned_markers):
+                if markers:
+                    if isinstance(markers, str):
+                        markers = json.loads(markers)
+                    timelines[index].set_marker_data(markers)
+                    music.update_timeline_markers(timelines[index].marker_data,index)
+                    print("markers",index, markers)
             #get the new dict from music and balls and give it to timeline
             #organize stuff in main so all functins are together at bottom or top   
 

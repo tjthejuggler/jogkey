@@ -60,7 +60,9 @@ class Ball( tk.Frame ):
 
     def update_color(self, timeline_markers, playtime):
         if timeline_markers:
-            getNextLowest  = lambda seq,x: min([(x-i,i) for i in seq if x>=i] or [(0,None)])
+            getNextLowest  = lambda seq,x: min([(float(x)-float(i),i) for i in seq if float(x)>=float(i)] or [(0,None)])
+            if isinstance(timeline_markers, str):
+                timeline_markers = json.loads(timeline_markers)
             newLowest = getNextLowest(list(timeline_markers.keys()), playtime)
             if newLowest[1] != None:
                 nextLowestColor = timeline_markers[newLowest[1]]
@@ -88,7 +90,7 @@ class Ball( tk.Frame ):
             results = json.dumps(self.timeline_markers)
             print('results',results)
             test = TextEditBox(results).show()
-            self.timeline_markers = test
+            self.timeline_markers = test.result
             print('test.result444', test.result)
 
 

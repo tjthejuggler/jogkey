@@ -37,6 +37,7 @@ class MusicPlayer( tk.Frame ):
         #print('music update timeline markers', marker, index)
         self.timeline_markers[index] = marker
         self.my_balls[index].set_timeline_markers(self.timeline_markers[index])
+        self.my_balls[index].update_color(self.timeline_markers[index], self.slider_value.get())
 
     def test_print(self):
         print("crazy test")
@@ -60,8 +61,9 @@ class MusicPlayer( tk.Frame ):
 
     def get_edited_markers_from_balls( self ):
         markers = [None]*4
-        for index, ball in enumerate(my_balls):
-            markers[index] = my_balls[index].timeline_markers
+        for index, ball in enumerate(self.my_balls):
+            markers[index] = self.my_balls[index].timeline_markers
+        return markers
 
 
 

@@ -44,7 +44,13 @@ class TimeLine( tk.Frame ):
 
     def update_rects(self):
         self.canvas.delete("all")
+        print('type1', type(self.marker_data))
         previous_markers_right_value = 0
+        print('isin', isinstance(self.marker_data, str))
+        if isinstance(self.marker_data, str):
+            print('was a string')
+            self.marker_data = json.loads(self.marker_data)
+        print('type2', type(self.marker_data))
         for marker_key in list(self.marker_data.keys()):  
             previous_markers_right_pixel = self.get_pixel_from_value(previous_markers_right_value)
             this_markers_right_pixel = previous_markers_right_pixel + self.get_pixel_from_value(marker_key)            
@@ -53,13 +59,15 @@ class TimeLine( tk.Frame ):
             previous_markers_right_value =+ float(marker_key)
 
     def add_marker(self, cur_slider_time, key_color, screen_width):
+        print('self.marker_data', self.marker_data)
         if len(self.marker_data) == 0:
             self.marker_data[cur_slider_time] = key_color
         elif len(self.marker_data) > 0:
             #print('cur_slider_time', cur_slider_time)
-            for key, value in self.marker_data.items():
-                if cur_slider_time < key:
-                    del self.marker_data[key]
+            for key in list(self.marker_data.items()):
+            #for key, value in self.marker_data.items():
+                if cur_slider_time < float(key[0]):
+                    del self.marker_data[key[0]]
             self.marker_data[cur_slider_time] = key_color
         self.update_rects()    
         self.most_recent_marker_time = cur_slider_time
