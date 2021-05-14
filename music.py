@@ -7,8 +7,13 @@ from pygame import mixer
 import tkinter as tk
 import tkinter.messagebox as tkMessageBox
 from ball import *
+from pathlib import Path
+import os
+from os import path
 
 class MusicPlayer( tk.Frame ):
+
+
 
     def __init__(self, master, tracktype='ogg', *args, **kwargs):
 
@@ -18,6 +23,7 @@ class MusicPlayer( tk.Frame ):
         self.master = master     # Tk window
         self.track = None        # Audio file
         self.trackLength = None  # Audio file length
+        self.chosen_file = 'glitches.ogg'
         self.player = None       # Music player
         self.playBut = None      # Play Button
         self.stopBut = None      # Stop Button
@@ -40,21 +46,16 @@ class MusicPlayer( tk.Frame ):
         print("crazy test")
 
     def get_AudioFile_MetaData( self, tracktype ):
-        try:
-            if tracktype == 'mp3':
-                audiofile='roses.mp3' # In current directory
-                f = MP3( audiofile )
-            elif tracktype == 'ogg':
-                audiofile='output.ogg' # In current directory
+        if self.chosen_file:
+            try:
+                audiofile='glitches.ogg' # In current directory
                 f = OggVorbis( audiofile )
+            except MutagenError:
+                print( "Fail to load audio file ({}) metadata".format(audiofile) )
             else:
-                raise print( 'Track type not supported.' )
-        except MutagenError:
-            print( "Fail to load audio file ({}) metadata".format(audiofile) )
-        else:
-            trackLength = f.info.length
-        self.track = audiofile
-        self.trackLength = trackLength; print( 'self.trackLength',type(self.trackLength),self.trackLength,' sec' )
+                trackLength = f.info.length
+            self.track = self.chosen_file
+            self.trackLength = trackLength; print( 'self.trackLength',type(self.trackLength),self.trackLength,' sec' )
 
     def get_edited_markers_from_balls( self ):
         markers = [None]*4
@@ -66,7 +67,7 @@ class MusicPlayer( tk.Frame ):
         print( '\ndef load_AudioFile( self, audiofile ):' )
         player = mixer
         player.init()
-        player.music.load( self.track )
+        player.music.load( self.chosen_file ) #self.track is probably normally filled automatically, but now it needs to wait for chosen
         player.music.set_volume( .25 )
         self.player = player
         print('self.player ', self.player)
@@ -77,6 +78,22 @@ class MusicPlayer( tk.Frame ):
                                 resolution=0.01, showvalue=True, tickinterval=5, digit=5,
                                 variable=self.slider_value, command=self.UpdateSlider )
         self.slider.pack(side=tk.TOP)
+
+        def browseSongs():
+            home = str(Path.home())
+            cwd = os.getcwd()
+            filename = tk.filedialog.askopenfilename(initialdir = cwd, title = "Select a File",
+                                                  filetypes = (("Text files", "*.ogg*"),
+                                                               ("all files", "*.*")))
+            label_file_explorer.configure(text="File Opened: "+os.path.basename(filename))
+            self.chosen_file = filename
+            self.load_AudioFile()                 
+
+        label_file_explorer = tk.Label(self, text = "File Explorer using Tkinter",
+                                    width = 100, height = 4, fg = "blue")              
+        button_explore = tk.Button(self, text = "Browse Files", command = browseSongs)
+        label_file_explorer.pack()
+        button_explore.pack()
         self.playBut = tk.Button( self, text='Play', command=self.Play, width = 50, height = 20, compound="c" )
         self.playBut.pack(side=tk.LEFT)
         self.stopBut = tk.Button( self, text='Stop', command=self.Stop, width = 50, height = 20, compound="c" )
@@ -89,9 +106,10 @@ class MusicPlayer( tk.Frame ):
         self.slider_width = self.slider.winfo_screenwidth()
 
     def Play( self ):
-        playtime = self.slider_value.get();       #print( type(playtime),'playtime = ',playtime,'sec' )
-        self.player.music.play( start=playtime ); #print( 'Play Started' )
-        self.TrackPlay( playtime )
+        if self.chosen_file:
+            playtime = self.slider_value.get();       #print( type(playtime),'playtime = ',playtime,'sec' )
+            self.player.music.play( start=playtime ); #print( 'Play Started' )
+            self.TrackPlay( playtime )
 
     def TrackPlay( self, playtime ):
         for index, ball in enumerate(self.my_balls):
@@ -99,7 +117,7 @@ class MusicPlayer( tk.Frame ):
         if self.player.music.get_busy():
             self.slider_value.set( playtime ); #print( type(self.slider_value.get()),'slider_value = ',self.slider_value.get() )
             playtime += .01 
-            self.loopID = self.after(10, lambda:self.TrackPlay( playtime ) );\
+            self.loopID = self.after(10, lambda:self.TrackPlay( playtime ) )
         else:
             print('Track Ended')
 

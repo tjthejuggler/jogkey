@@ -16,7 +16,7 @@ from pygame.locals import *
 from socket import *
 import struct
 import time
-import texteditbox
+import painteditor
 
 udp_header = struct.pack("!bIBH", 66, 0, 0, 0)
 s = socket(AF_INET, SOCK_DGRAM)
@@ -81,18 +81,18 @@ class Ball( tk.Frame ):
             self.ip=self.sv.get().strip()
             print('Text has changed ? ', self.ip)
             self.focus()
-            
+
         def editbutton_clicked():
             print('editbutton_clicked')
             print('self.timeline_markers', self.timeline_markers)
             results = json.dumps(self.timeline_markers)
             print('results',results)
-            test = TextEditBox(results).show()
+            test = PaintEditor(results).show()
             self.timeline_markers = test.result
             print('test.result444', test.result)
 
-        TextEditBox = texteditbox.TextEditBox
-        TextEditBox.root = self
+        PaintEditor = painteditor.PaintEditor
+        PaintEditor.root = self
         self.sv = tk.StringVar()
         print( '\ndef create_Widgets ( self ):' )
         self.canvas = tk.Canvas(self, width=ball_size, height=ball_size)

@@ -1,14 +1,14 @@
 import tkinter
 from tkinter.scrolledtext import ScrolledText
 
-class TextEditBox(object):
+class PaintEditor(object):
 
     root = None
 
     def __init__(self, msg):
         tki = tkinter
         print('msg', msg)
-        self.top = tki.Toplevel(TextEditBox.root)
+        self.top = tki.Toplevel(PaintEditor.root)
         frm = tki.Frame(self.top, borderwidth=4, relief='ridge')
         frm.pack(fill='both', expand=True)
         label = tki.Label(frm, text=msg)

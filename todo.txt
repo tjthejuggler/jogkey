@@ -1,22 +1,24 @@
 make special coding that user sees, where entire fades are just called fades, and maybe color names are commented
 
 make song selection choosable
-
-a way to strobe
-	instead of a color wheel, have a mini one track window pop up that can be done and "saved to a key"
-	even fade should exist in here
-	there should be a definable time length in here and it should wrap to strobe
+	get another song
 
 user can create "paints" which are solid colors, strobes, or fades
-	strobe is essentially a fade, just with a very quick transition
 
 figure out if using built in secuence is necessary or if should just use my own
 
-#change texteditbox into a paint editor
-    #it needs to be bigger
-    #needs all key buttons
-    #music timeline hooked to size indicated by an antry    
-        #timeline numbers could be in % so it doesn't matter if it gets the entry time
-    #load/save
-#change texteditbox name
-#rename other things
+change texteditbox into a paint editor
+    it needs to be bigger
+    definable time length
+    fade capabilities
+    needs all key buttons
+    music timeline hooked to size indicated by an antry    
+        timeline numbers could be in % so it doesn't matter if it gets the entry time
+    load/save
+    	a different kind from the other, it only saves and loads paints
+
+change texteditbox name
+rename other things
+
+to convert mp3 to ogg
+	ffmpeg -i input.mp3 -c:a libvorbis -q:a 4 output.ogg

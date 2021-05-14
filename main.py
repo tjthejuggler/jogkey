@@ -9,7 +9,7 @@ from pathlib import Path
 import json
 import colour
 import mbox
-import texteditbox
+import painteditor
 
 from music import *
 from timeline import *
@@ -122,7 +122,7 @@ def main():
     Mbox.root = root
     save_button = tkinter.Button(root, command=file_save, text="Save").pack()
     load_button = tkinter.Button(root, command=file_load, text="Load").pack()
-    track_length = OggVorbis('output.ogg').info.length         
+    track_length = OggVorbis('glitches.ogg').info.length         
     timelines = [None]*4
     for i in range(4):        
         timelines[i] = TimeLine( root, i, track_length, w)
