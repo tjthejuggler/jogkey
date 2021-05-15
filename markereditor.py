@@ -1,11 +1,7 @@
 import tkinter
 from tkinter.scrolledtext import ScrolledText
 
-from music import *
-from timeline import *
-from ball import *
-
-class PaintEditor(object):
+class MarkerEditor(object):
 
     root = None
 
@@ -16,7 +12,7 @@ class PaintEditor(object):
         self.msg = msg
         self.create_Widgets()
 
-    def entry_to_dict(self, dict_key):
+    def entry_to_dict(self):
         #print('dict_key', dict_key)
         data = self.entry.get('1.0', tkinter.END)
         print('data', data)
@@ -25,23 +21,33 @@ class PaintEditor(object):
             self.top.destroy()
 
     def show( self ):
-        #self.entry.focus_force()
+        self.entry.focus_force()
         self.top.wait_window()
         return self
 
     def create_Widgets ( self ):
         tki = tkinter
-        print('msg', self.msg)
-        self.top = tki.Toplevel(PaintEditor.root)
-        print('self.top',self.top)
+        print('msgz', self.msg)
+        print('MarkerEditor.root', MarkerEditor.root)
+        self.top = tki.Toplevel(MarkerEditor.root)
+        print('m1')
         frm = tki.Frame(self.top, borderwidth=4, relief='ridge')
+        print('m2')
         frm.pack(fill='both', expand=True)
+        print('m3')
         label = tki.Label(frm, text=self.msg)
+        print('m4')
         label.pack(padx=4, pady=4)
+        print('m5')
+        self.entry = ScrolledText(frm)
+        print('m6')
+        self.entry.insert(tki.END, self.msg)
+        print('m7')
+        self.entry.pack(pady=4)
+        self.result = None
         b_submit = tki.Button(frm, text='Submit')
         b_submit['command'] = lambda: self.entry_to_dict()
         b_submit.pack()
         b_cancel = tki.Button(frm, text='Cancel')
         b_cancel['command'] = self.top.destroy
         b_cancel.pack(padx=4, pady=4)
-        painteditor_music = MusicPlayer( self.top, True, tracktype='ogg' )

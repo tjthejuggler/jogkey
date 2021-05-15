@@ -16,13 +16,13 @@ from pygame.locals import *
 from socket import *
 import struct
 import time
-import markereditor
+import paintmarkereditor
 
 udp_header = struct.pack("!bIBH", 66, 0, 0, 0)
 s = socket(AF_INET, SOCK_DGRAM)
 ball_size = 120
 
-class Ball( tk.Frame ):
+class PaintBall( tk.Frame ):
 
     def __init__(self, master, *args, **kwargs):
 
@@ -83,17 +83,17 @@ class Ball( tk.Frame ):
             self.focus()
 
         def editbutton_clicked():
-            print('editbutton_clicked')
+            print('editbutton_clicked painball')
             print('self.timeline_markers', self.timeline_markers)
             results = json.dumps(self.timeline_markers)
             print('results',results)
-            marker_editor = MarkerEditor(results).show()
+            marker_editor = PaintMarkerEditor(results).show()
             self.timeline_markers = marker_editor.result
             print('marker_editor.result444', marker_editor.result)
 
-        MarkerEditor = markereditor.MarkerEditor
-        MarkerEditor.root = self
-        
+        PaintMarkerEditor = paintmarkereditor.PaintMarkerEditor
+        PaintMarkerEditor.root = self
+
         self.sv = tk.StringVar()
         print( '\ndef create_Widgets ( self ):' )
         self.canvas = tk.Canvas(self, width=ball_size, height=ball_size)

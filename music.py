@@ -7,19 +7,17 @@ from pygame import mixer
 import tkinter as tk
 import tkinter.messagebox as tkMessageBox
 from ball import *
+from paintball import *
 from pathlib import Path
 import os
 from os import path
 
 class MusicPlayer( tk.Frame ):
 
-
-
-    def __init__(self, master, tracktype='ogg', *args, **kwargs):
+    def __init__(self, master, in_painteditor, tracktype='ogg', *args, **kwargs):
 
         super().__init__(master) #initilizes self, which is a tk.Frame
         self.pack()
-
         self.master = master     # Tk window
         self.track = None        # Audio file
         self.trackLength = None  # Audio file length
@@ -31,7 +29,9 @@ class MusicPlayer( tk.Frame ):
         self.slider_value = None # Progress Bar value
         self.slider_width = None
         self.my_balls = [None]*4
+        self.my_paint_editor_ball = None
         self.timeline_markers = [None]*4
+        self.in_painteditor = in_painteditor
         self.get_AudioFile_MetaData( tracktype )
         self.load_AudioFile()
         self.create_Widgets()
@@ -64,13 +64,14 @@ class MusicPlayer( tk.Frame ):
         return markers
 
     def load_AudioFile( self ):
-        print( '\ndef load_AudioFile( self, audiofile ):' )
-        player = mixer
-        player.init()
-        player.music.load( self.chosen_file ) #self.track is probably normally filled automatically, but now it needs to wait for chosen
-        player.music.set_volume( .25 )
-        self.player = player
-        print('self.player ', self.player)
+        if not self.in_painteditor:
+            print( '\ndef load_AudioFile( self, audiofile ):' )
+            player = mixer
+            player.init()
+            player.music.load( self.chosen_file ) #self.track is probably normally filled automatically, but now it needs to wait for chosen
+            player.music.set_volume( .25 )
+            self.player = player
+            print('self.player ', self.player)
 
     def create_Widgets ( self ):
         self.slider_value = tk.DoubleVar()
@@ -87,28 +88,34 @@ class MusicPlayer( tk.Frame ):
                                                                ("all files", "*.*")))
             label_file_explorer.configure(text="File Opened: "+os.path.basename(filename))
             self.chosen_file = filename
-            self.load_AudioFile()                 
-
+            self.load_AudioFile()
         label_file_explorer = tk.Label(self, text = "File Explorer using Tkinter",
                                     width = 100, height = 4, fg = "blue")              
         button_explore = tk.Button(self, text = "Browse Files", command = browseSongs)
         label_file_explorer.pack()
         button_explore.pack()
-        self.playBut = tk.Button( self, text='Play', command=self.Play, width = 50, height = 20, compound="c" )
+        self.playBut = tk.Button( self, text='Play', command=self.Play, compound="c" )
         self.playBut.pack(side=tk.LEFT)
-        self.stopBut = tk.Button( self, text='Stop', command=self.Stop, width = 50, height = 20, compound="c" )
+        self.stopBut = tk.Button( self, text='Stop', command=self.Stop, compound="c" )
         self.stopBut.pack(side=tk.LEFT,padx=10)
-        for i in range(4):
-            self.my_balls[i] = Ball( self )
-            self.my_balls[i].pack()
-            self.my_balls[i].set_IP('11')
-        button_widths = self.playBut.winfo_width() + self.stopBut.winfo_width() + 10
+        if not self.in_painteditor:
+            for i in range(4):
+                self.my_balls[i] = Ball( self )
+                self.my_balls[i].pack(side=tk.RIGHT)
+                self.my_balls[i].set_IP('11')
+        else:
+            self.my_paint_editor_ball = PaintBall( self )
+            self.my_paint_editor_ball.pack(side=tk.RIGHT)
+            self.my_paint_editor_ball.set_IP('11')
+        #button_widths = self.playBut.winfo_width() + self.stopBut.winfo_width() + 10
         self.slider_width = self.slider.winfo_screenwidth()
 
     def Play( self ):
-        if self.chosen_file:
+        if not self.in_painteditor and self.chosen_file:
             playtime = self.slider_value.get();       #print( type(playtime),'playtime = ',playtime,'sec' )
             self.player.music.play( start=playtime ); #print( 'Play Started' )
+            self.TrackPlay( playtime )
+        if self.in_painteditor:
             self.TrackPlay( playtime )
 
     def TrackPlay( self, playtime ):

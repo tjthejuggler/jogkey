@@ -1,14 +1,9 @@
 make special coding that user sees, where entire fades are just called fades, and maybe color names are commented
 
-make song selection choosable
-	get another song
-
 user can create "paints" which are solid colors, strobes, or fades
 
-figure out if using built in secuence is necessary or if should just use my own
-
 change texteditbox into a paint editor
-    it needs to be bigger
+
     definable time length
     fade capabilities
     needs all key buttons
@@ -17,8 +12,14 @@ change texteditbox into a paint editor
     load/save
     	a different kind from the other, it only saves and loads paints
 
-change texteditbox name
-rename other things
+figure out if using built in secuence is necessary or if should just use my own
 
-to convert mp3 to ogg
-	ffmpeg -i input.mp3 -c:a libvorbis -q:a 4 output.ogg
+rename things
+
+make a way to automatically convert mp3 to ogg
+	btw, to convert mp3 to ogg
+		ffmpeg -i input.mp3 -c:a libvorbis -q:a 4 output.ogg
+
+make music analyzer/visualizer that creates markers automatically
+
+when music play is clicked restart current slide position

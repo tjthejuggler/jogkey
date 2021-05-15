@@ -8,7 +8,6 @@ from os import path
 from pathlib import Path
 import json
 import colour
-import mbox
 import painteditor
 
 from music import *
@@ -101,7 +100,7 @@ def main():
 
     def right_click( self ):
         print('right_click')#this right click is where we show the mini editor
-        test = Mbox(root, "testing").show()
+        paint_editor = PaintEditor(root).show()
 
     lower_key_labels = [['1','2','3','4','5','6','7','8','9','0'],
                   ['q','w','e','r','t','y','u','i','o','p'],
@@ -118,8 +117,8 @@ def main():
     root.geometry("%dx%d+0+0" % (w, h))
     root.bind("<FocusIn>", focus_handler)
     root.bind('<KeyPress>', keypress_handler) 
-    Mbox = mbox.Mbox
-    Mbox.root = root
+    PaintEditor = painteditor.PaintEditor
+    PaintEditor.root = root
     save_button = tkinter.Button(root, command=file_save, text="Save").pack()
     load_button = tkinter.Button(root, command=file_load, text="Load").pack()
     track_length = OggVorbis('glitches.ogg').info.length         
@@ -127,7 +126,7 @@ def main():
     for i in range(4):        
         timelines[i] = TimeLine( root, i, track_length, w)
         timelines[i].pack(anchor='w')    
-    music = MusicPlayer( root, tracktype='ogg' )
+    music = MusicPlayer( root, False, tracktype='ogg' )
     keys = [[None for i in range(10)] for j in range(4)]
     key_button_frame = tkinter.Frame(root, 
                width=canvas_width, 
@@ -140,7 +139,7 @@ def main():
             keys[i][j].config(text = lower_key_labels[i][j], width = 3, height = 3)
             keys[i][j].grid(row=i,column=j)
             keys[i][j].bind("<Button-3>", right_click)
-    print('keys1',keys)
+    #print('keys1',keys)
     root.mainloop()
 
 if __name__ == '__main__':
