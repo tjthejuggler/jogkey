@@ -40,6 +40,10 @@ class TimeLine( tk.Frame ):
 
     def get_pixel_from_value(self, value):
         pixel = ((float(value)*float(self.screen_width))/self.track_length)
+        # print('self.screen_width', self.screen_width)
+        # print('self.track_length', self.track_length)
+        # print('value', value)
+        # print('pixel', pixel)
         return pixel
 
     def update_rects(self):
@@ -53,7 +57,8 @@ class TimeLine( tk.Frame ):
         print('type2', type(self.marker_data))
         for marker_key in list(self.marker_data.keys()):  
             previous_markers_right_pixel = self.get_pixel_from_value(previous_markers_right_value)
-            this_markers_right_pixel = previous_markers_right_pixel + self.get_pixel_from_value(marker_key)            
+            this_markers_right_pixel = previous_markers_right_pixel + self.get_pixel_from_value(marker_key) 
+            print           
             self.canvas.create_rectangle(this_markers_right_pixel-previous_markers_right_pixel, 0, 1920, 30, fill=self.marker_data[marker_key], outline = "")
             self.canvas.pack()
             previous_markers_right_value =+ float(marker_key)
@@ -73,6 +78,7 @@ class TimeLine( tk.Frame ):
             self.marker_data[cur_slider_time] = key_color
         self.update_rects()    
         self.most_recent_marker_time = cur_slider_time
+        #print('self.marker_data2', self.marker_data)
 
     def create_Widgets ( self ):
         print( '\ndef create_Widgets ( self ):' )

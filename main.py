@@ -9,6 +9,7 @@ from pathlib import Path
 import json
 import colour
 import painteditor
+import argparse
 
 from music import *
 from timeline import *
@@ -18,7 +19,19 @@ home = str(Path.home())
 cwd = os.getcwd()
 default_colors = ["#000000","#FFFFFF","#FF0000","#00FF00","#0000FF","#FFFF00","#00FFFF","#FF00FF","#00FFFF","#FF00FF"]
 
+
 def main():
+
+    def get_args():
+        track_name = ''
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument("songfile", help="song filename")
+
+        args = parser.parse_args()
+        track_name = args.songfile
+
+        return (track_name)
 
     def focus_handler(event):
         if event.widget == root:
@@ -62,6 +75,7 @@ def main():
                         timelines[key_row].add_marker(previousMarkerTime + (index * gap_increment), fade_color.hex_l, music.slider_width)
                         music.update_timeline_markers(timelines[key_row].marker_data,key_row)
                 else:
+                    print('cur_slider_time', cur_slider_time)
                     timelines[key_row].add_marker(cur_slider_time, key_color, music.slider_width)
                     music.update_timeline_markers(timelines[key_row].marker_data,key_row)
 
@@ -102,6 +116,7 @@ def main():
         print('right_click')#this right click is where we show the mini editor
         paint_editor = PaintEditor(root).show()
 
+    track_name = get_args()
     lower_key_labels = [['1','2','3','4','5','6','7','8','9','0'],
                   ['q','w','e','r','t','y','u','i','o','p'],
                   ['a','s','d','f','g','h','j','k','l',';'],
@@ -121,12 +136,12 @@ def main():
     PaintEditor.root = root
     save_button = tkinter.Button(root, command=file_save, text="Save").pack()
     load_button = tkinter.Button(root, command=file_load, text="Load").pack()
-    track_length = OggVorbis('glitches.ogg').info.length         
+    track_length = OggVorbis(track_name).info.length         
     timelines = [None]*4
     for i in range(4):        
         timelines[i] = TimeLine( root, i, track_length, w)
         timelines[i].pack(anchor='w')    
-    music = MusicPlayer( root, False, tracktype='ogg' )
+    music = MusicPlayer( root, False, track_name, tracktype='ogg', )
     keys = [[None for i in range(10)] for j in range(4)]
     key_button_frame = tkinter.Frame(root, 
                width=canvas_width, 

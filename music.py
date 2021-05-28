@@ -14,14 +14,14 @@ from os import path
 
 class MusicPlayer( tk.Frame ):
 
-    def __init__(self, master, in_painteditor, tracktype='ogg', *args, **kwargs):
+    def __init__(self, master, in_painteditor, optioned_filename, tracktype='ogg', *args, **kwargs):
 
         super().__init__(master) #initilizes self, which is a tk.Frame
         self.pack()
         self.master = master     # Tk window
         self.track = None        # Audio file
         self.trackLength = None  # Audio file length
-        self.chosen_file = 'glitches.ogg'
+        self.chosen_file = optioned_filename
         self.player = None       # Music player
         self.playBut = None      # Play Button
         self.stopBut = None      # Stop Button
@@ -48,13 +48,14 @@ class MusicPlayer( tk.Frame ):
     def get_AudioFile_MetaData( self, tracktype ):
         if self.chosen_file:
             try:
-                audiofile='glitches.ogg' # In current directory
+                audiofile=os.path.basename(self.chosen_file) # In current directory
                 f = OggVorbis( audiofile )
             except MutagenError:
                 print( "Fail to load audio file ({}) metadata".format(audiofile) )
             else:
                 trackLength = f.info.length
             self.track = self.chosen_file
+            print('self.track', self.track)
             self.trackLength = trackLength; print( 'self.trackLength',type(self.trackLength),self.trackLength,' sec' )
 
     def get_edited_markers_from_balls( self ):
@@ -72,6 +73,11 @@ class MusicPlayer( tk.Frame ):
             player.music.set_volume( .25 )
             self.player = player
             print('self.player ', self.player)
+            self.get_AudioFile_MetaData( 'ogg' )
+            print('self.trackLength2', self.trackLength)
+            
+            #self.slider.pack(side=tk.TOP)
+            #self.slider.set(100)
 
     def create_Widgets ( self ):
         self.slider_value = tk.DoubleVar()
@@ -89,6 +95,8 @@ class MusicPlayer( tk.Frame ):
             label_file_explorer.configure(text="File Opened: "+os.path.basename(filename))
             self.chosen_file = filename
             self.load_AudioFile()
+            self.slider_value.set( 0 )
+            self.slider.configure(to=self.trackLength )
         label_file_explorer = tk.Label(self, text = "File Explorer using Tkinter",
                                     width = 100, height = 4, fg = "blue")              
         button_explore = tk.Button(self, text = "Browse Files", command = browseSongs)
